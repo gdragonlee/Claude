@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>당직일정관리</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --danger: #dc2626;
+            --danger-hover: #b91c1c;
+            --success: #16a34a;
+            --warning: #f59e0b;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-lg: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .app-header {
+            background: var(--primary);
+            color: white;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-lg);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .app-header h1 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .header-actions button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background 0.2s;
+        }
+
+        .header-actions button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 24px;
+            background: var(--card);
+            border-radius: 10px;
+            padding: 4px;
+            box-shadow: var(--shadow);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-light);
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background: #f1f5f9;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Calendar Styles */
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .calendar-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        .calendar-nav button {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .calendar-nav button:hover {
+            background: #f1f5f9;
+        }
+
+        .calendar-grid {
+            background: var(--card);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            background: #f1f5f9;
+        }
+
+        .weekday {
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .weekday:first-child {
+            color: var(--danger);
+        }
+
+        .weekday:last-child {
+            color: var(--primary);
+        }
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+
+        .calendar-day {
+            min-height: 100px;
+            padding: 8px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.2s;
+            position: relative;
+        }
+
+        .calendar-day:hover {
+            background: #f8fafc;
+        }
+
+        .calendar-day.other-month {
+            background: #fafafa;
+            color: #cbd5e1;
+        }
+
+        .calendar-day.today {
+            background: #eff6ff;
+        }
+
+        .calendar-day.today .day-number {
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .day-number {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .calendar-day:nth-child(7n+1) .day-number {
+            color: var(--danger);
+        }
+
+        .calendar-day:nth-child(7n) .day-number {
+            color: var(--primary);
+        }
+
+        .duty-badge {
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+        }
+
+        .duty-badge.day-duty {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .duty-badge.night-duty {
+            background: #fce7f3;
+            color: #9d174d;
+        }
+
+        /* Staff Panel */
+        .panel {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .panel h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .staff-form {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .staff-form input, .staff-form select {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .staff-form input:focus, .staff-form select:focus {
+            border-color: var(--primary);
+        }
+
+        .staff-form input[type="text"] {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: var(--danger-hover);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #15803d;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .btn-outline:hover {
+            background: #f1f5f9;
+        }
+
+        .btn-sm {
+            padding: 4px 10px;
+            font-size: 12px;
+        }
+
+        .staff-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .staff-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .staff-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .staff-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .staff-name {
+            font-weight: 500;
+        }
+
+        .staff-role {
+            font-size: 12px;
+            color: var(--text-light);
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .staff-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 28px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--shadow-lg);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .modal-form-group {
+            margin-bottom: 16px;
+        }
+
+        .modal-form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: var(--text-light);
+        }
+
+        .modal-form-group select,
+        .modal-form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .modal-form-group select:focus,
+        .modal-form-group input:focus {
+            border-color: var(--primary);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 24px;
+        }
+
+        /* Schedule Table */
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .schedule-table th,
+        .schedule-table td {
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .schedule-table th {
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .schedule-table tr:hover td {
+            background: #f8fafc;
+        }
+
+        .swap-btn {
+            background: none;
+            border: 1px solid var(--border);
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .swap-btn:hover {
+            background: #f1f5f9;
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .stat-card .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-card .stat-label {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        /* Auto generate */
+        .generate-options {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .generate-options .modal-form-group {
+            margin-bottom: 0;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+        }
+
+        .empty-state p {
+            margin-bottom: 12px;
+        }
+
+        /* Holiday marker */
+        .holiday-marker {
+            font-size: 10px;
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 12px;
+            }
+
+            .calendar-day {
+                min-height: 70px;
+                padding: 4px;
+            }
+
+            .duty-badge {
+                font-size: 9px;
+                padding: 1px 4px;
+            }
+
+            .day-number {
+                font-size: 12px;
+            }
+
+            .staff-form {
+                flex-direction: column;
+            }
+
+            .generate-options {
+                flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .app-header h1 {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <h1>&#128197; 당직일정관리</h1>
+        <div class="header-actions">
+            <button onclick="exportData()">내보내기</button>
+            <button onclick="importData()">가져오기</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab active" data-tab="calendar">캘린더</button>
+            <button class="tab" data-tab="staff">인원관리</button>
+            <button class="tab" data-tab="schedule">일정목록</button>
+            <button class="tab" data-tab="stats">통계</button>
+        </div>
+
+        <!-- Calendar Tab -->
+        <div id="tab-calendar" class="tab-content active">
+            <div class="calendar-header">
+                <h2 id="calendar-title"></h2>
+                <div class="calendar-nav">
+                    <button onclick="changeMonth(-1)">&#9664; 이전</button>
+                    <button onclick="goToday()">오늘</button>
+                    <button onclick="changeMonth(1)">다음 &#9654;</button>
+                </div>
+            </div>
+            <div class="panel" style="padding: 0; margin-bottom: 16px;">
+                <div class="generate-options" style="padding: 16px;">
+                    <div class="modal-form-group">
+                        <label>당직 유형</label>
+                        <select id="gen-duty-type">
+                            <option value="day">주간당직</option>
+                            <option value="night">야간당직</option>
+                            <option value="both">주간+야간</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-success" onclick="autoGenerate()">자동 배정</button>
+                    <button class="btn btn-outline" onclick="clearMonthSchedule()">이달 초기화</button>
+                </div>
+            </div>
+            <div class="calendar-grid">
+                <div class="calendar-weekdays">
+                    <div class="weekday">일</div>
+                    <div class="weekday">월</div>
+                    <div class="weekday">화</div>
+                    <div class="weekday">수</div>
+                    <div class="weekday">목</div>
+                    <div class="weekday">금</div>
+                    <div class="weekday">토</div>
+                </div>
+                <div class="calendar-days" id="calendar-days"></div>
+            </div>
+        </div>
+
+        <!-- Staff Tab -->
+        <div id="tab-staff" class="tab-content">
+            <div class="panel">
+                <h3>인원 추가</h3>
+                <div class="staff-form">
+                    <input type="text" id="staff-name" placeholder="이름">
+                    <select id="staff-role">
+                        <option value="의사">의사</option>
+                        <option value="간호사">간호사</option>
+                        <option value="당직의">당직의</option>
+                        <option value="기타">기타</option>
+                    </select>
+                    <input type="color" id="staff-color" value="#2563eb" style="width:40px; height:38px; padding:2px;">
+                    <button class="btn btn-primary" onclick="addStaff()">추가</button>
+                </div>
+            </div>
+            <div class="panel">
+                <h3>인원 목록 (<span id="staff-count">0</span>명)</h3>
+                <div class="staff-list" id="staff-list">
+                    <div class="empty-state">
+                        <p>등록된 인원이 없습니다.</p>
+                        <p>위에서 인원을 추가해주세요.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schedule List Tab -->
+        <div id="tab-schedule" class="tab-content">
+            <div class="panel">
+                <h3>이달의 당직 일정</h3>
+                <div id="schedule-list">
+                    <div class="empty-state">
+                        <p>배정된 당직 일정이 없습니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Tab -->
+        <div id="tab-stats" class="tab-content">
+            <div class="stats-grid" id="stats-grid"></div>
+            <div class="panel">
+                <h3>인원별 당직 현황</h3>
+                <div id="stats-detail"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Day Detail Modal -->
+    <div class="modal-overlay" id="day-modal">
+        <div class="modal">
+            <h3 id="modal-date-title"></h3>
+            <div id="modal-duties"></div>
+            <div class="modal-form-group" style="margin-top: 16px;">
+                <label>주간당직 배정</label>
+                <select id="modal-day-staff">
+                    <option value="">-- 미배정 --</option>
+                </select>
+            </div>
+            <div class="modal-form-group">
+                <label>야간당직 배정</label>
+                <select id="modal-night-staff">
+                    <option value="">-- 미배정 --</option>
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-outline" onclick="closeModal()">취소</button>
+                <button class="btn btn-danger btn-sm" onclick="removeDayDuty()">삭제</button>
+                <button class="btn btn-primary" onclick="saveDayDuty()">저장</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Swap Modal -->
+    <div class="modal-overlay" id="swap-modal">
+        <div class="modal">
+            <h3>당직 교대</h3>
+            <div class="modal-form-group">
+                <label>교대 대상</label>
+                <select id="swap-target"></select>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-outline" onclick="closeSwapModal()">취소</button>
+                <button class="btn btn-primary" onclick="confirmSwap()">교대 확인</button>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="import-file" accept=".json" style="display:none" onchange="handleImport(event)">
+
+    <script>
+        // --- State ---
+        let currentYear = new Date().getFullYear();
+        let currentMonth = new Date().getMonth();
+        let staffList = [];
+        let scheduleData = {};
+        let selectedDate = null;
+        let swapInfo = null;
+
+        // --- Init ---
+        function init() {
+            loadData();
+            renderCalendar();
+            renderStaffList();
+            setupTabs();
+        }
+
+        // --- LocalStorage ---
+        function loadData() {
+            const saved = localStorage.getItem('dutyScheduleApp');
+            if (saved) {
+                const data = JSON.parse(saved);
+                staffList = data.staffList || [];
+                scheduleData = data.scheduleData || {};
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('dutyScheduleApp', JSON.stringify({
+                staffList,
+                scheduleData
+            }));
+        }
+
+        // --- Tabs ---
+        function setupTabs() {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+                    if (tab.dataset.tab === 'schedule') renderScheduleList();
+                    if (tab.dataset.tab === 'stats') renderStats();
+                });
+            });
+        }
+
+        // --- Calendar ---
+        function renderCalendar() {
+            const title = `${currentYear}년 ${currentMonth + 1}월`;
+            document.getElementById('calendar-title').textContent = title;
+
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
+
+            const container = document.getElementById('calendar-days');
+            container.innerHTML = '';
+
+            const today = new Date();
+
+            // Previous month days
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const day = daysInPrevMonth - i;
+                const div = createDayCell(day, true);
+                container.appendChild(div);
+            }
+
+            // Current month days
+            for (let d = 1; d <= daysInMonth; d++) {
+                const isToday = today.getFullYear() === currentYear &&
+                    today.getMonth() === currentMonth && today.getDate() === d;
+                const div = createDayCell(d, false, isToday);
+                container.appendChild(div);
+            }
+
+            // Next month days
+            const totalCells = container.children.length;
+            const remaining = (7 - (totalCells % 7)) % 7;
+            for (let i = 1; i <= remaining; i++) {
+                const div = createDayCell(i, true);
+                container.appendChild(div);
+            }
+        }
+
+        function createDayCell(day, isOtherMonth, isToday = false) {
+            const div = document.createElement('div');
+            div.className = 'calendar-day';
+            if (isOtherMonth) div.classList.add('other-month');
+            if (isToday) div.classList.add('today');
+
+            const dayNum = document.createElement('div');
+            dayNum.className = 'day-number';
+            dayNum.textContent = day;
+            div.appendChild(dayNum);
+
+            if (!isOtherMonth) {
+                const dateKey = getDateKey(currentYear, currentMonth, day);
+                const duties = scheduleData[dateKey];
+
+                if (duties) {
+                    if (duties.day) {
+                        const staff = staffList.find(s => s.id === duties.day);
+                        if (staff) {
+                            const badge = document.createElement('div');
+                            badge.className = 'duty-badge day-duty';
+                            badge.textContent = `주 ${staff.name}`;
+                            badge.style.borderLeft = `3px solid ${staff.color}`;
+                            div.appendChild(badge);
+                        }
+                    }
+                    if (duties.night) {
+                        const staff = staffList.find(s => s.id === duties.night);
+                        if (staff) {
+                            const badge = document.createElement('div');
+                            badge.className = 'duty-badge night-duty';
+                            badge.textContent = `야 ${staff.name}`;
+                            badge.style.borderLeft = `3px solid ${staff.color}`;
+                            div.appendChild(badge);
+                        }
+                    }
+                }
+
+                div.addEventListener('click', () => openDayModal(day));
+            }
+
+            return div;
+        }
+
+        function changeMonth(delta) {
+            currentMonth += delta;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar();
+        }
+
+        function goToday() {
+            currentYear = new Date().getFullYear();
+            currentMonth = new Date().getMonth();
+            renderCalendar();
+        }
+
+        function getDateKey(y, m, d) {
+            return `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        }
+
+        // --- Staff ---
+        function addStaff() {
+            const name = document.getElementById('staff-name').value.trim();
+            const role = document.getElementById('staff-role').value;
+            const color = document.getElementById('staff-color').value;
+
+            if (!name) {
+                alert('이름을 입력해주세요.');
+                return;
+            }
+
+            staffList.push({
+                id: Date.now().toString(),
+                name,
+                role,
+                color
+            });
+
+            document.getElementById('staff-name').value = '';
+            saveData();
+            renderStaffList();
+        }
+
+        function removeStaff(id) {
+            if (!confirm('정말 삭제하시겠습니까? 관련 당직 일정도 함께 삭제됩니다.')) return;
+
+            staffList = staffList.filter(s => s.id !== id);
+
+            // Remove from schedule
+            for (const key in scheduleData) {
+                if (scheduleData[key].day === id) scheduleData[key].day = null;
+                if (scheduleData[key].night === id) scheduleData[key].night = null;
+                if (!scheduleData[key].day && !scheduleData[key].night) {
+                    delete scheduleData[key];
+                }
+            }
+
+            saveData();
+            renderStaffList();
+            renderCalendar();
+        }
+
+        function renderStaffList() {
+            const container = document.getElementById('staff-list');
+            document.getElementById('staff-count').textContent = staffList.length;
+
+            if (staffList.length === 0) {
+                container.innerHTML = `<div class="empty-state"><p>등록된 인원이 없습니다.</p><p>위에서 인원을 추가해주세요.</p></div>`;
+                return;
+            }
+
+            container.innerHTML = staffList.map(staff => `
+                <div class="staff-item">
+                    <div class="staff-info">
+                        <div class="staff-color" style="background: ${staff.color}"></div>
+                        <span class="staff-name">${staff.name}</span>
+                        <span class="staff-role">${staff.role}</span>
+                    </div>
+                    <div class="staff-actions">
+                        <button class="btn btn-danger btn-sm" onclick="removeStaff('${staff.id}')">삭제</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- Day Modal ---
+        function openDayModal(day) {
+            selectedDate = day;
+            const dateKey = getDateKey(currentYear, currentMonth, day);
+            const duties = scheduleData[dateKey] || {};
+
+            document.getElementById('modal-date-title').textContent =
+                `${currentYear}년 ${currentMonth + 1}월 ${day}일`;
+
+            const daySelect = document.getElementById('modal-day-staff');
+            const nightSelect = document.getElementById('modal-night-staff');
+
+            const options = '<option value="">-- 미배정 --</option>' +
+                staffList.map(s => `<option value="${s.id}">${s.name} (${s.role})</option>`).join('');
+
+            daySelect.innerHTML = options;
+            nightSelect.innerHTML = options;
+
+            if (duties.day) daySelect.value = duties.day;
+            if (duties.night) nightSelect.value = duties.night;
+
+            document.getElementById('day-modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('day-modal').classList.remove('active');
+            selectedDate = null;
+        }
+
+        function saveDayDuty() {
+            const dateKey = getDateKey(currentYear, currentMonth, selectedDate);
+            const dayStaff = document.getElementById('modal-day-staff').value || null;
+            const nightStaff = document.getElementById('modal-night-staff').value || null;
+
+            if (dayStaff || nightStaff) {
+                scheduleData[dateKey] = { day: dayStaff, night: nightStaff };
+            } else {
+                delete scheduleData[dateKey];
+            }
+
+            saveData();
+            renderCalendar();
+            closeModal();
+        }
+
+        function removeDayDuty() {
+            const dateKey = getDateKey(currentYear, currentMonth, selectedDate);
+            delete scheduleData[dateKey];
+            saveData();
+            renderCalendar();
+            closeModal();
+        }
+
+        // --- Auto Generate ---
+        function autoGenerate() {
+            if (staffList.length === 0) {
+                alert('먼저 인원을 등록해주세요.');
+                return;
+            }
+
+            const dutyType = document.getElementById('gen-duty-type').value;
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            // Count existing duties per staff this month
+            const dutyCounts = {};
+            staffList.forEach(s => dutyCounts[s.id] = { day: 0, night: 0 });
+
+            // Count existing assignments
+            for (let d = 1; d <= daysInMonth; d++) {
+                const key = getDateKey(currentYear, currentMonth, d);
+                if (scheduleData[key]) {
+                    if (scheduleData[key].day && dutyCounts[scheduleData[key].day]) {
+                        dutyCounts[scheduleData[key].day].day++;
+                    }
+                    if (scheduleData[key].night && dutyCounts[scheduleData[key].night]) {
+                        dutyCounts[scheduleData[key].night].night++;
+                    }
+                }
+            }
+
+            let lastDayStaff = null;
+            let lastNightStaff = null;
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const key = getDateKey(currentYear, currentMonth, d);
+                if (scheduleData[key] && scheduleData[key].day && scheduleData[key].night) continue;
+
+                if (!scheduleData[key]) scheduleData[key] = {};
+
+                if ((dutyType === 'day' || dutyType === 'both') && !scheduleData[key].day) {
+                    const staffId = pickStaff(dutyCounts, 'day', lastDayStaff, lastNightStaff);
+                    if (staffId) {
+                        scheduleData[key].day = staffId;
+                        dutyCounts[staffId].day++;
+                        lastDayStaff = staffId;
+                    }
+                }
+
+                if ((dutyType === 'night' || dutyType === 'both') && !scheduleData[key].night) {
+                    const exclude = scheduleData[key].day;
+                    const staffId = pickStaff(dutyCounts, 'night', lastNightStaff, exclude);
+                    if (staffId) {
+                        scheduleData[key].night = staffId;
+                        dutyCounts[staffId].night++;
+                        lastNightStaff = staffId;
+                    }
+                }
+            }
+
+            saveData();
+            renderCalendar();
+            alert('자동 배정이 완료되었습니다.');
+        }
+
+        function pickStaff(dutyCounts, type, lastStaff, excludeStaff) {
+            const candidates = staffList
+                .filter(s => s.id !== lastStaff && s.id !== excludeStaff)
+                .sort((a, b) => {
+                    const countA = dutyCounts[a.id].day + dutyCounts[a.id].night;
+                    const countB = dutyCounts[b.id].day + dutyCounts[b.id].night;
+                    if (countA !== countB) return countA - countB;
+                    return Math.random() - 0.5;
+                });
+
+            if (candidates.length === 0) {
+                // Fallback: allow any staff except same-day duplicate
+                const fallback = staffList
+                    .filter(s => s.id !== excludeStaff)
+                    .sort((a, b) => {
+                        const countA = dutyCounts[a.id].day + dutyCounts[a.id].night;
+                        const countB = dutyCounts[b.id].day + dutyCounts[b.id].night;
+                        return countA - countB;
+                    });
+                return fallback.length > 0 ? fallback[0].id : null;
+            }
+
+            return candidates[0].id;
+        }
+
+        function clearMonthSchedule() {
+            if (!confirm(`${currentYear}년 ${currentMonth + 1}월 일정을 모두 초기화하시겠습니까?`)) return;
+
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            for (let d = 1; d <= daysInMonth; d++) {
+                const key = getDateKey(currentYear, currentMonth, d);
+                delete scheduleData[key];
+            }
+
+            saveData();
+            renderCalendar();
+        }
+
+        // --- Schedule List ---
+        function renderScheduleList() {
+            const container = document.getElementById('schedule-list');
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
+
+            let rows = [];
+            for (let d = 1; d <= daysInMonth; d++) {
+                const key = getDateKey(currentYear, currentMonth, d);
+                const duties = scheduleData[key];
+                const date = new Date(currentYear, currentMonth, d);
+                const weekday = weekdays[date.getDay()];
+                const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+
+                const dayStaff = duties && duties.day ? staffList.find(s => s.id === duties.day) : null;
+                const nightStaff = duties && duties.night ? staffList.find(s => s.id === duties.night) : null;
+
+                rows.push(`
+                    <tr style="${isWeekend ? 'background: #fef2f2;' : ''}">
+                        <td><strong>${d}일</strong> (${weekday})</td>
+                        <td>${dayStaff ? `<span style="color: ${dayStaff.color}; font-weight: 500;">${dayStaff.name}</span>` : '<span style="color:#cbd5e1">-</span>'}</td>
+                        <td>${nightStaff ? `<span style="color: ${nightStaff.color}; font-weight: 500;">${nightStaff.name}</span>` : '<span style="color:#cbd5e1">-</span>'}</td>
+                        <td>
+                            ${(dayStaff || nightStaff) ? `<button class="swap-btn" onclick="openSwapModal('${key}')">교대</button>` : ''}
+                        </td>
+                    </tr>
+                `);
+            }
+
+            if (rows.length === 0) {
+                container.innerHTML = `<div class="empty-state"><p>배정된 당직 일정이 없습니다.</p></div>`;
+                return;
+            }
+
+            container.innerHTML = `
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>날짜</th>
+                            <th>주간당직</th>
+                            <th>야간당직</th>
+                            <th>관리</th>
+                        </tr>
+                    </thead>
+                    <tbody>${rows.join('')}</tbody>
+                </table>
+            `;
+        }
+
+        // --- Swap ---
+        function openSwapModal(dateKey) {
+            swapInfo = { dateKey };
+            const duties = scheduleData[dateKey];
+            const select = document.getElementById('swap-target');
+
+            let options = '';
+            // Find other dates that have duties
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            for (let d = 1; d <= daysInMonth; d++) {
+                const key = getDateKey(currentYear, currentMonth, d);
+                if (key === dateKey) continue;
+                const otherDuties = scheduleData[key];
+                if (!otherDuties) continue;
+
+                const dayName = otherDuties.day ? (staffList.find(s => s.id === otherDuties.day)?.name || '') : '';
+                const nightName = otherDuties.night ? (staffList.find(s => s.id === otherDuties.night)?.name || '') : '';
+                const label = `${d}일 (주:${dayName || '-'} / 야:${nightName || '-'})`;
+                options += `<option value="${key}">${label}</option>`;
+            }
+
+            if (!options) {
+                alert('교대할 수 있는 다른 일정이 없습니다.');
+                return;
+            }
+
+            select.innerHTML = options;
+            document.getElementById('swap-modal').classList.add('active');
+        }
+
+        function closeSwapModal() {
+            document.getElementById('swap-modal').classList.remove('active');
+            swapInfo = null;
+        }
+
+        function confirmSwap() {
+            const targetKey = document.getElementById('swap-target').value;
+            const sourceKey = swapInfo.dateKey;
+
+            const temp = { ...scheduleData[sourceKey] };
+            scheduleData[sourceKey] = { ...scheduleData[targetKey] };
+            scheduleData[targetKey] = temp;
+
+            saveData();
+            renderCalendar();
+            renderScheduleList();
+            closeSwapModal();
+            alert('교대가 완료되었습니다.');
+        }
+
+        // --- Stats ---
+        function renderStats() {
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const counts = {};
+            let totalDay = 0;
+            let totalNight = 0;
+
+            staffList.forEach(s => counts[s.id] = { day: 0, night: 0, total: 0 });
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const key = getDateKey(currentYear, currentMonth, d);
+                const duties = scheduleData[key];
+                if (!duties) continue;
+
+                if (duties.day && counts[duties.day]) {
+                    counts[duties.day].day++;
+                    counts[duties.day].total++;
+                    totalDay++;
+                }
+                if (duties.night && counts[duties.night]) {
+                    counts[duties.night].night++;
+                    counts[duties.night].total++;
+                    totalNight++;
+                }
+            }
+
+            // Stats grid
+            const gridContainer = document.getElementById('stats-grid');
+            gridContainer.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-value">${staffList.length}</div>
+                    <div class="stat-label">전체 인원</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${totalDay}</div>
+                    <div class="stat-label">주간당직 배정</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${totalNight}</div>
+                    <div class="stat-label">야간당직 배정</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${totalDay + totalNight}</div>
+                    <div class="stat-label">전체 당직 수</div>
+                </div>
+            `;
+
+            // Detail table
+            const detailContainer = document.getElementById('stats-detail');
+            if (staffList.length === 0) {
+                detailContainer.innerHTML = `<div class="empty-state"><p>등록된 인원이 없습니다.</p></div>`;
+                return;
+            }
+
+            const rows = staffList.map(s => {
+                const c = counts[s.id];
+                return `
+                    <tr>
+                        <td>
+                            <div class="staff-info">
+                                <div class="staff-color" style="background: ${s.color}"></div>
+                                <span class="staff-name">${s.name}</span>
+                                <span class="staff-role">${s.role}</span>
+                            </div>
+                        </td>
+                        <td>${c.day}회</td>
+                        <td>${c.night}회</td>
+                        <td><strong>${c.total}회</strong></td>
+                    </tr>
+                `;
+            }).join('');
+
+            detailContainer.innerHTML = `
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>이름</th>
+                            <th>주간</th>
+                            <th>야간</th>
+                            <th>합계</th>
+                        </tr>
+                    </thead>
+                    <tbody>${rows}</tbody>
+                </table>
+            `;
+        }
+
+        // --- Export / Import ---
+        function exportData() {
+            const data = JSON.stringify({ staffList, scheduleData }, null, 2);
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `duty-schedule-${currentYear}-${currentMonth + 1}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importData() {
+            document.getElementById('import-file').click();
+        }
+
+        function handleImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.staffList) staffList = data.staffList;
+                    if (data.scheduleData) scheduleData = data.scheduleData;
+                    saveData();
+                    renderCalendar();
+                    renderStaffList();
+                    alert('데이터를 성공적으로 가져왔습니다.');
+                } catch (err) {
+                    alert('파일 형식이 올바르지 않습니다.');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // --- Start ---
+        init();
+    </script>
+</body>
+</html>
