@@ -1,35 +1,41 @@
 import type { Notification } from '../types';
-import { generateId, getStore, setStore } from './client';
-
-const NOTIFICATIONS_KEY = 'duty_notifications';
+import { supabase } from '../supabase';
 
 export async function getNotifications(userId: string): Promise<Notification[]> {
-  const notifications = getStore<Notification>(NOTIFICATIONS_KEY);
-  return notifications
-    .filter((n) => n.userId === userId)
-    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  const { data, error } = await supabase
+    .from('notifications')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
+
+  if (error) throw new Error(error.message);
+  return (data || []).map(mapNotification);
 }
 
 export async function getUnreadCount(userId: string): Promise<number> {
-  const notifications = getStore<Notification>(NOTIFICATIONS_KEY);
-  return notifications.filter((n) => n.userId === userId && !n.isRead).length;
+  const { count, error } = await supabase
+    .from('notifications')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', userId)
+    .eq('is_read', false);
+
+  if (error) throw new Error(error.message);
+  return count || 0;
 }
 
 export async function markAsRead(id: string): Promise<void> {
-  const notifications = getStore<Notification>(NOTIFICATIONS_KEY);
-  const idx = notifications.findIndex((n) => n.id === id);
-  if (idx !== -1) {
-    notifications[idx].isRead = true;
-    setStore(NOTIFICATIONS_KEY, notifications);
-  }
+  await supabase
+    .from('notifications')
+    .update({ is_read: true })
+    .eq('id', id);
 }
 
 export async function markAllAsRead(userId: string): Promise<void> {
-  const notifications = getStore<Notification>(NOTIFICATIONS_KEY);
-  notifications.forEach((n) => {
-    if (n.userId === userId) n.isRead = true;
-  });
-  setStore(NOTIFICATIONS_KEY, notifications);
+  await supabase
+    .from('notifications')
+    .update({ is_read: true })
+    .eq('user_id', userId)
+    .eq('is_read', false);
 }
 
 export async function createNotification(data: {
@@ -38,19 +44,27 @@ export async function createNotification(data: {
   title: string;
   message: string;
   relatedId?: string;
-}): Promise<Notification> {
-  const notifications = getStore<Notification>(NOTIFICATIONS_KEY);
-  const notification: Notification = {
-    id: generateId(),
-    userId: data.userId,
-    type: data.type,
-    title: data.title,
-    message: data.message,
-    isRead: false,
-    relatedId: data.relatedId || null,
-    createdAt: new Date().toISOString(),
+}): Promise<void> {
+  await supabase
+    .from('notifications')
+    .insert({
+      user_id: data.userId,
+      type: data.type,
+      title: data.title,
+      message: data.message,
+      related_id: data.relatedId || null,
+    });
+}
+
+function mapNotification(row: Record<string, unknown>): Notification {
+  return {
+    id: row.id as string,
+    userId: row.user_id as string,
+    type: row.type as Notification['type'],
+    title: row.title as string,
+    message: row.message as string | null,
+    isRead: row.is_read as boolean,
+    relatedId: row.related_id as string | null,
+    createdAt: row.created_at as string,
   };
-  notifications.push(notification);
-  setStore(NOTIFICATIONS_KEY, notifications);
-  return notification;
 }

@@ -12,7 +12,7 @@ export interface Profile {
 }
 
 // --- 당직 일정 ---
-export type ShiftType = 'duty' | 'duty_off' | 'leave' | 'research' | 'conference';
+export type ShiftType = 'duty' | 'night_duty' | 'duty_off' | 'leave' | 'research' | 'conference';
 
 export interface DutySchedule {
   id: string;
@@ -22,10 +22,13 @@ export interface DutySchedule {
   shiftType: ShiftType;
   status: 'assigned' | 'confirmed' | 'swap_requested';
   note: string | null;
+  groupId: string | null;
   createdBy: string;
   createdAt: string;
   updatedAt: string;
 }
+
+export type RepeatPattern = 'daily' | 'weekly' | 'biweekly' | 'custom';
 
 export interface CreateScheduleDTO {
   date: string;
@@ -58,6 +61,44 @@ export interface Notification {
   isRead: boolean;
   relatedId: string | null;
   createdAt: string;
+}
+
+// --- 공지사항 ---
+export interface Announcement {
+  id: string;
+  title: string;
+  content: string;
+  isPinned: boolean;
+  authorId: string;
+  author?: Profile;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateAnnouncementDTO {
+  title: string;
+  content: string;
+  isPinned?: boolean;
+}
+
+// --- 메시지 ---
+export interface Message {
+  id: string;
+  senderId: string;
+  sender?: Profile;
+  receiverId: string;
+  receiver?: Profile;
+  content: string;
+  isRead: boolean;
+  createdAt: string;
+}
+
+export interface Conversation {
+  partnerId: string;
+  partner?: Profile;
+  lastMessage: string;
+  lastAt: string;
+  unreadCount: number;
 }
 
 // --- 인증 ---

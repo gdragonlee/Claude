@@ -1,91 +1,111 @@
 import type { Profile, LoginDTO, SignupDTO } from '../types';
-import { generateId, getStore, setStore } from './client';
+import { supabase } from '../supabase';
 
-const PROFILES_KEY = 'duty_profiles';
-const PASSWORDS_KEY = 'duty_passwords';
-
-export async function signup(data: SignupDTO): Promise<Profile> {
-  const profiles = getStore<Profile>(PROFILES_KEY);
-  const passwords = getStore<{ email: string; password: string }>(PASSWORDS_KEY);
-
-  if (profiles.find((p) => p.email === data.email)) {
-    throw new Error('이미 등록된 이메일입니다.');
-  }
-
-  const isFirstUser = profiles.length === 0;
-  const now = new Date().toISOString();
-  const profile: Profile = {
-    id: generateId(),
+export async function signup(data: SignupDTO): Promise<void> {
+  const { data: authData, error } = await supabase.auth.signUp({
     email: data.email,
-    name: data.name,
-    role: isFirstUser ? 'admin' : 'user',
-    position: data.position || null,
-    phone: data.phone || null,
-    isActive: true,
-    createdAt: now,
-    updatedAt: now,
-  };
+    password: data.password,
+    options: {
+      data: {
+        name: data.name,
+        position: data.position || null,
+        phone: data.phone || null,
+      },
+    },
+  });
 
-  profiles.push(profile);
-  passwords.push({ email: data.email, password: data.password });
-  setStore(PROFILES_KEY, profiles);
-  setStore(PASSWORDS_KEY, passwords);
-  localStorage.setItem('currentUser', JSON.stringify(profile));
+  if (error) throw new Error(error.message);
+  if (!authData.user) throw new Error('회원가입에 실패했습니다.');
 
-  return profile;
+  // 이미 가입된 이메일 감지
+  if (!authData.user.identities || authData.user.identities.length === 0) {
+    throw new Error('이미 가입된 이메일입니다. 로그인 페이지에서 로그인해주세요.');
+  }
+  // 프로필은 DB 트리거 또는 AuthProvider 폴백이 처리
 }
 
-export async function login(data: LoginDTO): Promise<Profile> {
-  const profiles = getStore<Profile>(PROFILES_KEY);
-  const passwords = getStore<{ email: string; password: string }>(PASSWORDS_KEY);
-
-  const pwEntry = passwords.find((p) => p.email === data.email);
-  if (!pwEntry || pwEntry.password !== data.password) {
-    throw new Error('이메일 또는 비밀번호가 올바르지 않습니다.');
-  }
-
-  const profile = profiles.find((p) => p.email === data.email);
-  if (!profile) throw new Error('사용자를 찾을 수 없습니다.');
-  if (!profile.isActive) throw new Error('비활성화된 계정입니다.');
-
-  localStorage.setItem('currentUser', JSON.stringify(profile));
-  return profile;
+export async function login(data: LoginDTO): Promise<void> {
+  console.log('[AUTH] login 시작:', data.email);
+  const { error } = await supabase.auth.signInWithPassword({
+    email: data.email,
+    password: data.password,
+  });
+  console.log('[AUTH] signInWithPassword 완료, error:', error);
+  if (error) throw new Error(error.message);
+  console.log('[AUTH] login 성공');
 }
 
 export async function logout(): Promise<void> {
-  localStorage.removeItem('currentUser');
+  await supabase.auth.signOut();
 }
 
 export async function getMe(): Promise<Profile | null> {
-  const data = localStorage.getItem('currentUser');
-  return data ? JSON.parse(data) : null;
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session?.user) return null;
+  const user = session.user;
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', user.id)
+    .single();
+
+  return profile ? mapProfile(profile) : null;
 }
 
 export async function updateProfile(
   id: string,
   updates: Partial<Pick<Profile, 'name' | 'position' | 'phone'>>
 ): Promise<Profile> {
-  const profiles = getStore<Profile>(PROFILES_KEY);
-  const idx = profiles.findIndex((p) => p.id === id);
-  if (idx === -1) throw new Error('사용자를 찾을 수 없습니다.');
+  const { data, error } = await supabase
+    .from('profiles')
+    .update(updates)
+    .eq('id', id)
+    .select()
+    .single();
 
-  profiles[idx] = { ...profiles[idx], ...updates, updatedAt: new Date().toISOString() };
-  setStore(PROFILES_KEY, profiles);
-
-  const currentUser = await getMe();
-  if (currentUser && currentUser.id === id) {
-    localStorage.setItem('currentUser', JSON.stringify(profiles[idx]));
-  }
-
-  return profiles[idx];
+  if (error) throw new Error(error.message);
+  return mapProfile(data);
 }
 
 export async function updateUserRole(id: string, role: 'admin' | 'user'): Promise<Profile> {
-  const profiles = getStore<Profile>(PROFILES_KEY);
-  const idx = profiles.findIndex((p) => p.id === id);
-  if (idx === -1) throw new Error('사용자를 찾을 수 없습니다.');
+  const { data, error } = await supabase
+    .from('profiles')
+    .update({ role })
+    .eq('id', id)
+    .select()
+    .single();
 
-  profiles[idx] = { ...profiles[idx], role, updatedAt: new Date().toISOString() };
-  setStore(PROFILES_KEY, profiles);
-  return profiles[idx];
+  if (error) throw new Error(error.message);
+  return mapProfile(data);
+}
+
+export async function resetPassword(email: string): Promise<void> {
+  const redirectUrl = typeof window !== 'undefined'
+    ? `${window.location.origin}/reset-password/confirm`
+    : undefined;
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: redirectUrl,
+  });
+  if (error) throw new Error(error.message);
+}
+
+export async function updatePassword(newPassword: string): Promise<void> {
+  const { error } = await supabase.auth.updateUser({ password: newPassword });
+  if (error) throw new Error(error.message);
+}
+
+// DB snake_case → 앱 camelCase 변환
+function mapProfile(row: Record<string, unknown>): Profile {
+  return {
+    id: row.id as string,
+    email: row.email as string,
+    name: row.name as string,
+    role: row.role as 'admin' | 'user',
+    position: row.position as string | null,
+    phone: row.phone as string | null,
+    isActive: row.is_active as boolean,
+    createdAt: row.created_at as string,
+    updatedAt: row.updated_at as string,
+  };
 }

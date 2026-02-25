@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { AuthProvider, useAuth } from '@/lib/context/AuthContext';
 import { ToastProvider } from '@/lib/context/ToastContext';
 import AppHeader from '@/components/layout/AppHeader';
@@ -10,14 +9,16 @@ import MobileNav from '@/components/layout/MobileNav';
 import Toast from '@/components/ui/Toast';
 
 function AppLayoutInner({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, isLoading } = useAuth();
-  const router = useRouter();
+  const { isAuthenticated, isLoading, user } = useAuth();
+
+  console.log('[Dashboard] isLoading:', isLoading, 'isAuthenticated:', isAuthenticated, 'user:', user?.email);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.replace('/');
+      console.log('[Dashboard] 미인증 → /login 리다이렉트');
+      window.location.href = '/login';
     }
-  }, [isAuthenticated, isLoading, router]);
+  }, [isAuthenticated, isLoading]);
 
   if (isLoading) {
     return (

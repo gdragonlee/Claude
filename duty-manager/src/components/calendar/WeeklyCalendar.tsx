@@ -95,10 +95,10 @@ export default function WeeklyCalendar({
       {/* 헤더 */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200">
         <div className="flex items-center gap-2">
-          <h3 className="text-sm font-semibold text-slate-700">
+          <h3 className="text-sm lg:text-base font-semibold text-slate-700">
             부재 현황
           </h3>
-          <span className="text-xs text-slate-400">
+          <span className="text-xs lg:text-sm text-slate-400">
             {expanded ? `${year}년 ${month + 1}월` : weekLabel}
           </span>
         </div>
@@ -142,15 +142,15 @@ export default function WeeklyCalendar({
                   )}
                 >
                   <div className={clsx(
-                    'text-[10px] font-medium',
+                    'text-[10px] lg:text-xs font-medium',
                     isRedDay ? 'text-red-500' : dayOfWeek === 6 ? 'text-blue-500' : 'text-slate-400'
                   )}>
                     {WEEKDAYS[dayOfWeek]}
                   </div>
                   <div
                     className={clsx(
-                      'text-sm font-semibold mt-0.5',
-                      isTodayDate && 'bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center mx-auto text-xs',
+                      'text-sm lg:text-base font-semibold mt-0.5',
+                      isTodayDate && 'bg-blue-600 text-white w-6 h-6 lg:w-7 lg:h-7 rounded-full flex items-center justify-center mx-auto text-xs lg:text-sm',
                       !isTodayDate && isRedDay && 'text-red-500',
                       !isTodayDate && !isRedDay && dayOfWeek === 6 && 'text-blue-500',
                       !isTodayDate && !isRedDay && dayOfWeek !== 6 && 'text-slate-700'
@@ -159,7 +159,7 @@ export default function WeeklyCalendar({
                     {date.getDate()}
                   </div>
                   {holidayName && (
-                    <div className="text-[8px] text-red-400 truncate px-0.5 leading-tight mt-0.5">
+                    <div className="text-[8px] lg:text-[10px] text-red-400 truncate px-0.5 leading-tight mt-0.5">
                       {holidayName}
                     </div>
                   )}
@@ -185,7 +185,7 @@ export default function WeeklyCalendar({
                   )}
                 >
                   {dayOff.length === 0 ? (
-                    <div className="text-[9px] text-slate-300 text-center mt-2">-</div>
+                    <div className="text-[9px] lg:text-xs text-slate-300 text-center mt-2">-</div>
                   ) : (
                     <div className="space-y-0.5">
                       {dayOff.map((s) => {
@@ -194,7 +194,7 @@ export default function WeeklyCalendar({
                           <div
                             key={s.id}
                             className={clsx(
-                              'text-[9px] leading-tight px-1 py-0.5 rounded truncate',
+                              'text-[9px] lg:text-[11px] leading-tight px-1 py-0.5 rounded truncate',
                               color.bg,
                               color.text
                             )}
@@ -219,7 +219,7 @@ export default function WeeklyCalendar({
               <div
                 key={day}
                 className={clsx(
-                  'py-2 text-center text-[10px] font-medium',
+                  'py-2 text-center text-[10px] lg:text-sm font-medium',
                   i === 0 ? 'text-red-500' : i === 6 ? 'text-blue-500' : 'text-slate-400'
                 )}
               >
@@ -242,7 +242,7 @@ export default function WeeklyCalendar({
                   key={i}
                   onClick={() => onDayClick(dateStr)}
                   className={clsx(
-                    'border border-slate-100 min-h-[70px] p-1 cursor-pointer transition-colors hover:bg-slate-50',
+                    'border border-slate-100 min-h-[70px] lg:min-h-[100px] p-1 lg:p-1.5 cursor-pointer transition-colors hover:bg-slate-50',
                     !isCurrentMonth && 'bg-slate-50/50 text-slate-300',
                     isTodayDate && 'bg-blue-50/60',
                     holidayName && isCurrentMonth && !isTodayDate && 'bg-red-50/30'
@@ -251,8 +251,8 @@ export default function WeeklyCalendar({
                   <div className="flex items-center gap-0.5">
                     <div
                       className={clsx(
-                        'text-xs font-medium',
-                        isTodayDate && 'bg-blue-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px]',
+                        'text-xs lg:text-sm font-medium',
+                        isTodayDate && 'bg-blue-600 text-white w-5 h-5 lg:w-6 lg:h-6 rounded-full flex items-center justify-center text-[10px] lg:text-xs',
                         !isTodayDate && isRedDay && isCurrentMonth && 'text-red-500',
                         !isTodayDate && !isRedDay && dayOfWeek === 6 && isCurrentMonth && 'text-blue-500',
                         !isTodayDate && !isCurrentMonth && 'text-slate-300'
@@ -261,7 +261,7 @@ export default function WeeklyCalendar({
                       {date.getDate()}
                     </div>
                     {holidayName && isCurrentMonth && (
-                      <span className="text-[7px] text-red-400 truncate leading-tight">{holidayName}</span>
+                      <span className="text-[7px] lg:text-[10px] text-red-400 truncate leading-tight">{holidayName}</span>
                     )}
                   </div>
                   {dayOff.length > 0 && (
@@ -272,7 +272,7 @@ export default function WeeklyCalendar({
                           <div
                             key={s.id}
                             className={clsx(
-                              'text-[8px] leading-tight px-1 py-0.5 rounded truncate',
+                              'text-[8px] lg:text-[11px] leading-tight px-1 py-0.5 rounded truncate',
                               color.bg,
                               color.text
                             )}

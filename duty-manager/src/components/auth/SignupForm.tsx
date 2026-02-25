@@ -2,14 +2,12 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/context/AuthContext';
 import { POSITION_OPTIONS } from '@/lib/utils/constants';
 import Button from '../ui/Button';
 
 export default function SignupForm() {
   const { signup } = useAuth();
-  const router = useRouter();
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -43,7 +41,7 @@ export default function SignupForm() {
         position: form.position || undefined,
         phone: form.phone || undefined,
       });
-      router.push('/dashboard');
+      window.location.href = '/dashboard';
     } catch (err) {
       setError(err instanceof Error ? err.message : '회원가입에 실패했습니다.');
     } finally {

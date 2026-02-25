@@ -2,13 +2,11 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/context/AuthContext';
 import Button from '../ui/Button';
 
 export default function LoginForm() {
   const { login } = useAuth();
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -18,10 +16,13 @@ export default function LoginForm() {
     e.preventDefault();
     setError('');
     setLoading(true);
+    console.log('[LoginForm] 로그인 시도:', email);
     try {
       await login({ email, password });
-      router.push('/dashboard');
+      console.log('[LoginForm] login 완료, 리다이렉트');
+      window.location.href = '/dashboard';
     } catch (err) {
+      console.error('[LoginForm] 로그인 에러:', err);
       setError(err instanceof Error ? err.message : '로그인에 실패했습니다.');
     } finally {
       setLoading(false);
@@ -58,12 +59,19 @@ export default function LoginForm() {
       <Button type="submit" className="w-full" disabled={loading}>
         {loading ? '로그인 중...' : '로그인'}
       </Button>
-      <p className="text-center text-sm text-slate-500">
-        계정이 없으신가요?{' '}
-        <Link href="/signup" className="text-blue-600 hover:underline">
-          회원가입
-        </Link>
-      </p>
+      <div className="text-center space-y-2">
+        <p className="text-sm">
+          <Link href="/reset-password" className="text-slate-500 hover:text-blue-600 hover:underline">
+            비밀번호를 잊으셨나요?
+          </Link>
+        </p>
+        <p className="text-sm text-slate-500">
+          계정이 없으신가요?{' '}
+          <Link href="/signup" className="text-blue-600 hover:underline">
+            회원가입
+          </Link>
+        </p>
+      </div>
     </form>
   );
 }

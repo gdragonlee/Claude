@@ -36,7 +36,7 @@ export default function CalendarGrid({
         {WEEKDAYS.map((day, i) => (
           <div
             key={day}
-            className={`py-2.5 text-center text-xs font-semibold ${
+            className={`py-2.5 text-center text-xs lg:text-sm font-semibold ${
               i === 0 ? 'text-red-500' : i === 6 ? 'text-blue-500' : 'text-slate-500'
             }`}
           >

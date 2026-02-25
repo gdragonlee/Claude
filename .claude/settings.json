@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add src/lib/api/auth.ts src/components/auth/LoginForm.tsx)",
+      "Bash(git commit:*)"
+    ]
+  }
+}

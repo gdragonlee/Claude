@@ -1,6 +1,7 @@
 /**
  * 대한민국 공휴일 (관공서의 공휴일에 관한 규정 기준)
  * 음력 공휴일은 연도별 양력 변환 테이블 사용 (2024-2030)
+ * 대체공휴일은 알고리즘으로 자동 계산
  */
 
 interface Holiday {
@@ -21,12 +22,12 @@ const FIXED_HOLIDAYS: Holiday[] = [
 ];
 
 // 음력 공휴일의 양력 변환 테이블 (설날 전날~다음날, 추석 전날~다음날, 부처님오신날)
+// 대체공휴일은 자동 계산되므로 수동 입력하지 않음
 const LUNAR_HOLIDAYS: Record<number, Holiday[]> = {
   2024: [
     { date: '02-09', name: '설날 연휴' },
     { date: '02-10', name: '설날' },
     { date: '02-11', name: '설날 연휴' },
-    { date: '02-12', name: '대체공휴일(설날)' },
     { date: '05-15', name: '부처님오신날' },
     { date: '09-16', name: '추석 연휴' },
     { date: '09-17', name: '추석' },
@@ -40,7 +41,6 @@ const LUNAR_HOLIDAYS: Record<number, Holiday[]> = {
     { date: '10-05', name: '추석 연휴' },
     { date: '10-06', name: '추석' },
     { date: '10-07', name: '추석 연휴' },
-    { date: '10-08', name: '대체공휴일(추석)' },
   ],
   2026: [
     { date: '02-16', name: '설날 연휴' },
@@ -55,7 +55,6 @@ const LUNAR_HOLIDAYS: Record<number, Holiday[]> = {
     { date: '02-06', name: '설날 연휴' },
     { date: '02-07', name: '설날' },
     { date: '02-08', name: '설날 연휴' },
-    { date: '02-09', name: '대체공휴일(설날)' },
     { date: '05-13', name: '부처님오신날' },
     { date: '09-14', name: '추석 연휴' },
     { date: '09-15', name: '추석' },
@@ -90,8 +89,92 @@ const LUNAR_HOLIDAYS: Record<number, Holiday[]> = {
   ],
 };
 
+/** Date → YYYY-MM-DD */
+function fmtDate(d: Date): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+/** 다음 비공휴일 평일 찾기 */
+function findNextAvailableWeekday(from: Date, occupied: Set<string>): Date {
+  const d = new Date(from);
+  do {
+    d.setDate(d.getDate() + 1);
+  } while (d.getDay() === 0 || d.getDay() === 6 || occupied.has(fmtDate(d)));
+  return d;
+}
+
+/**
+ * 대체공휴일 자동 계산
+ * 관공서의 공휴일에 관한 규정 제3조 (2024.1.1~ 시행)
+ * - 모든 공휴일이 토요일 또는 다른 공휴일(일요일 포함)과 겹치면 대체공휴일
+ * - 같은 날짜에 복수 공휴일이 겹치면 초과분에 대체공휴일
+ */
+function computeSubstituteHolidays(year: number): { date: string; name: string }[] {
+  // 1. 개별 공휴일 수집 (중복 날짜 허용)
+  const allHolidays: { date: string; name: string }[] = [];
+
+  for (const h of FIXED_HOLIDAYS) {
+    allHolidays.push({ date: `${year}-${h.date}`, name: h.name });
+  }
+
+  const lunar = LUNAR_HOLIDAYS[year];
+  if (lunar) {
+    for (const h of lunar) {
+      allHolidays.push({ date: `${year}-${h.date}`, name: h.name });
+    }
+  }
+
+  // 날짜순 정렬
+  allHolidays.sort((a, b) => a.date.localeCompare(b.date));
+
+  // 점유 날짜 (공휴일 + 추가되는 대체공휴일)
+  const occupiedDates = new Set(allHolidays.map((h) => h.date));
+
+  const substitutes: { date: string; name: string }[] = [];
+
+  // 2. 토/일요일 공휴일 → 대체공휴일
+  for (const h of allHolidays) {
+    const d = new Date(h.date + 'T00:00:00');
+    const dayOfWeek = d.getDay();
+
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+      const sub = findNextAvailableWeekday(d, occupiedDates);
+      const subStr = fmtDate(sub);
+      occupiedDates.add(subStr);
+      substitutes.push({ date: subStr, name: `대체공휴일(${h.name})` });
+    }
+  }
+
+  // 3. 같은 날짜에 복수 공휴일 겹침 (평일) → 초과분 대체공휴일
+  const dateGroups = new Map<string, string[]>();
+  for (const h of allHolidays) {
+    const list = dateGroups.get(h.date) || [];
+    list.push(h.name);
+    dateGroups.set(h.date, list);
+  }
+
+  for (const [date, names] of dateGroups) {
+    if (names.length <= 1) continue;
+    const d = new Date(date + 'T00:00:00');
+    if (d.getDay() === 0 || d.getDay() === 6) continue; // 주말은 위에서 처리됨
+
+    for (let i = 1; i < names.length; i++) {
+      const sub = findNextAvailableWeekday(d, occupiedDates);
+      const subStr = fmtDate(sub);
+      occupiedDates.add(subStr);
+      substitutes.push({ date: subStr, name: `대체공휴일(${names[i]})` });
+    }
+  }
+
+  return substitutes;
+}
+
 /**
  * 해당 연도의 모든 공휴일을 Map<'YYYY-MM-DD', 공휴일이름>으로 반환
+ * (대체공휴일 포함)
  */
 export function getHolidaysForYear(year: number): Map<string, string> {
   const map = new Map<string, string>();
@@ -107,9 +190,15 @@ export function getHolidaysForYear(year: number): Map<string, string> {
     for (const h of lunar) {
       const key = `${year}-${h.date}`;
       const existing = map.get(key);
-      // 같은 날에 두 공휴일이 겹치면 (예: 어린이날 + 부처님오신날) 둘 다 표시
       map.set(key, existing ? `${existing} / ${h.name}` : h.name);
     }
+  }
+
+  // 대체공휴일 자동 계산
+  const substitutes = computeSubstituteHolidays(year);
+  for (const sub of substitutes) {
+    const existing = map.get(sub.date);
+    map.set(sub.date, existing ? `${existing} / ${sub.name}` : sub.name);
   }
 
   return map;

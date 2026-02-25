@@ -15,23 +15,36 @@ export default function DutyBadge({ schedule, showName = true, inline }: DutyBad
   const position = schedule.user?.position || '';
   const userName = schedule.user?.name || '미지정';
   const isDuty = schedule.shiftType === 'duty';
+  const isNightDuty = schedule.shiftType === 'night_duty';
 
-  // 당직: 직급별 색상, 부재: 근무구분별 색상
+  // 당직: 직급별 색상, 백당: indigo 고정, 부재: 근무구분별 색상
   const posColor = POSITION_COLORS[position] || DEFAULT_POS_COLOR;
   const shiftColor = SHIFT_COLORS[schedule.shiftType] || SHIFT_COLORS.duty;
 
   if (inline) {
+    if (isNightDuty) {
+      return (
+        <span
+          className={clsx(
+            'inline-flex items-center text-[10px] lg:text-xs px-1.5 py-0.5 rounded-full whitespace-nowrap',
+            'bg-indigo-100 text-indigo-800'
+          )}
+          title={`${label} - ${userName} (${position || '미지정'})`}
+        >
+          {userName}
+        </span>
+      );
+    }
     if (isDuty) {
       return (
         <span
           className={clsx(
-            'inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-full whitespace-nowrap',
+            'inline-flex items-center text-[10px] lg:text-xs px-1.5 py-0.5 rounded-full whitespace-nowrap',
             posColor.bg,
             posColor.text
           )}
           title={`${label} - ${userName} (${position || '미지정'})`}
         >
-          <span className={clsx('w-1.5 h-1.5 rounded-full shrink-0', posColor.dot)} />
           {userName}
         </span>
       );
@@ -40,7 +53,7 @@ export default function DutyBadge({ schedule, showName = true, inline }: DutyBad
     return (
       <span
         className={clsx(
-          'inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-full whitespace-nowrap',
+          'inline-flex items-center text-[10px] lg:text-xs px-1.5 py-0.5 rounded-full whitespace-nowrap',
           shiftColor.bg,
           shiftColor.text
         )}
@@ -52,12 +65,12 @@ export default function DutyBadge({ schedule, showName = true, inline }: DutyBad
   }
 
   // 블록 모드
-  const bg = isDuty ? posColor.bg : shiftColor.bg;
-  const text = isDuty ? posColor.text : shiftColor.text;
+  const bg = isNightDuty ? 'bg-indigo-100' : isDuty ? posColor.bg : shiftColor.bg;
+  const text = isNightDuty ? 'text-indigo-800' : isDuty ? posColor.text : shiftColor.text;
 
   return (
     <div
-      className={clsx('text-[11px] px-1.5 py-0.5 rounded mb-0.5 truncate cursor-pointer', bg, text)}
+      className={clsx('text-[11px] lg:text-xs px-1.5 py-0.5 rounded mb-0.5 truncate cursor-pointer', bg, text)}
       title={`${label} - ${userName} (${position || '미지정'})`}
     >
       {showName ? `${label} ${userName}` : label}

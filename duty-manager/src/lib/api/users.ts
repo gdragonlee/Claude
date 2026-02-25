@@ -1,28 +1,86 @@
 import type { Profile } from '../types';
-import { getStore, setStore } from './client';
-
-const PROFILES_KEY = 'duty_profiles';
+import { supabase } from '../supabase';
 
 export async function getUsers(): Promise<Profile[]> {
-  return getStore<Profile>(PROFILES_KEY).filter((p) => p.isActive);
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('is_active', true)
+    .order('name');
+
+  if (error) throw new Error(error.message);
+  return (data || []).map(mapProfile);
 }
 
 export async function getAllUsers(): Promise<Profile[]> {
-  return getStore<Profile>(PROFILES_KEY);
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .order('name');
+
+  if (error) throw new Error(error.message);
+  return (data || []).map(mapProfile);
 }
 
 export async function getUser(id: string): Promise<Profile | null> {
-  const profiles = getStore<Profile>(PROFILES_KEY);
-  return profiles.find((p) => p.id === id) || null;
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error) return null;
+  return mapProfile(data);
 }
 
 export async function toggleUserActive(id: string): Promise<Profile> {
-  const profiles = getStore<Profile>(PROFILES_KEY);
-  const idx = profiles.findIndex((p) => p.id === id);
-  if (idx === -1) throw new Error('사용자를 찾을 수 없습니다.');
+  // 현재 상태 조회
+  const { data: current, error: fetchError } = await supabase
+    .from('profiles')
+    .select('is_active')
+    .eq('id', id)
+    .single();
 
-  profiles[idx].isActive = !profiles[idx].isActive;
-  profiles[idx].updatedAt = new Date().toISOString();
-  setStore(PROFILES_KEY, profiles);
-  return profiles[idx];
+  if (fetchError || !current) throw new Error('사용자를 찾을 수 없습니다.');
+
+  const { data, error } = await supabase
+    .from('profiles')
+    .update({ is_active: !current.is_active })
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) throw new Error(error.message);
+  return mapProfile(data);
+}
+
+export async function updateUserPosition(id: string, position: string | null): Promise<Profile> {
+  const { data, error } = await supabase
+    .from('profiles')
+    .update({ position })
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) throw new Error(error.message);
+  return mapProfile(data);
+}
+
+export async function deleteUser(id: string): Promise<void> {
+  const { error } = await supabase.rpc('delete_user_by_admin', { p_user_id: id });
+  if (error) throw new Error(error.message);
+}
+
+function mapProfile(row: Record<string, unknown>): Profile {
+  return {
+    id: row.id as string,
+    email: row.email as string,
+    name: row.name as string,
+    role: row.role as 'admin' | 'user',
+    position: row.position as string | null,
+    phone: row.phone as string | null,
+    isActive: row.is_active as boolean,
+    createdAt: row.created_at as string,
+    updatedAt: row.updated_at as string,
+  };
 }

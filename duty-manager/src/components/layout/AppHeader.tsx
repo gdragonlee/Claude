@@ -23,8 +23,12 @@ export default function AppHeader() {
 
   return (
     <header className="bg-blue-600 text-white px-4 md:px-6 py-3 flex items-center justify-between sticky top-0 z-50 shadow-lg">
-      <Link href="/dashboard" className="text-lg font-bold">
-        당직일정관리
+      <Link href="/dashboard" className="flex items-center gap-2">
+        <img src="/cnuh-logo.svg" alt="충남대학교병원" className="w-8 h-8 rounded-full bg-white p-0.5 object-contain" />
+        <div className="leading-tight">
+          <span className="text-[10px] font-semibold tracking-wider opacity-80 block">CNUH APM</span>
+          <span className="text-sm font-bold">당직일정관리</span>
+        </div>
       </Link>
 
       <div className="flex items-center gap-3">
@@ -75,7 +79,7 @@ export default function AppHeader() {
                 </Link>
               )}
               <button
-                onClick={() => { logout(); setMenuOpen(false); }}
+                onClick={async () => { await logout(); setMenuOpen(false); window.location.href = '/login'; }}
                 className="block w-full text-left px-4 py-2.5 hover:bg-slate-50 text-red-600 border-t"
               >
                 로그아웃

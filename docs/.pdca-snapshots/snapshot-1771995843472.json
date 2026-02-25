@@ -1,0 +1,1037 @@
+{
+  "timestamp": "2026-02-25T05:04:03.471Z",
+  "reason": "compaction",
+  "status": {
+    "version": "2.0",
+    "lastUpdated": "2026-02-25T05:01:19.239Z",
+    "activeFeatures": [
+      "duty-manager",
+      "calendar",
+      "schedule",
+      "api",
+      "dashboard",
+      "context",
+      "layout",
+      "auth",
+      "login",
+      "signup",
+      "users",
+      "(app)",
+      "reset-password",
+      "confirm",
+      "[date]"
+    ],
+    "primaryFeature": "duty-manager",
+    "features": {
+      "duty-manager": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T07:34:50.883Z",
+          "lastUpdated": "2026-02-25T04:58:06.495Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/lib/types/index.ts"
+      },
+      "calendar": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T07:35:14.982Z",
+          "lastUpdated": "2026-02-24T08:00:18.825Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/app/(app)/calendar/page.tsx"
+      },
+      "schedule": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T07:36:16.876Z",
+          "lastUpdated": "2026-02-25T04:59:56.774Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/components/schedule/DutyForm.tsx"
+      },
+      "api": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T07:37:58.724Z",
+          "lastUpdated": "2026-02-25T05:01:19.239Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/lib/api/swapRequests.ts"
+      },
+      "dashboard": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T07:49:48.249Z",
+          "lastUpdated": "2026-02-24T08:01:27.111Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/app/(app)/dashboard/page.tsx"
+      },
+      "context": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T08:16:46.122Z",
+          "lastUpdated": "2026-02-25T04:00:03.788Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/lib/context/AuthContext.tsx"
+      },
+      "layout": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T08:48:16.183Z",
+          "lastUpdated": "2026-02-25T04:16:37.205Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/components/layout/AppHeader.tsx"
+      },
+      "auth": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T09:48:23.553Z",
+          "lastUpdated": "2026-02-25T03:45:07.308Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/components/auth/LoginForm.tsx"
+      },
+      "login": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T10:06:44.921Z",
+          "lastUpdated": "2026-02-25T04:16:30.032Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/app/(auth)/login/page.tsx"
+      },
+      "signup": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T10:06:59.148Z",
+          "lastUpdated": "2026-02-24T11:20:30.603Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/app/(auth)/signup/page.tsx"
+      },
+      "users": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T10:09:55.953Z",
+          "lastUpdated": "2026-02-24T11:21:12.338Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/app/(app)/admin/users/page.tsx"
+      },
+      "(app)": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T10:47:59.011Z",
+          "lastUpdated": "2026-02-25T03:55:06.434Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/app/(app)/layout.tsx"
+      },
+      "reset-password": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T11:22:45.756Z",
+          "lastUpdated": "2026-02-24T11:22:45.756Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/app/(auth)/reset-password/page.tsx"
+      },
+      "confirm": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T11:23:03.638Z",
+          "lastUpdated": "2026-02-24T11:23:03.638Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/app/(auth)/reset-password/confirm/page.tsx"
+      },
+      "[date]": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-25T04:10:55.534Z",
+          "lastUpdated": "2026-02-25T05:00:36.986Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/app/(app)/schedule/[date]/page.tsx"
+      }
+    },
+    "pipeline": {
+      "currentPhase": 3,
+      "level": "Dynamic",
+      "phaseHistory": [
+        {
+          "phase": 1,
+          "completedAt": "2026-02-24T06:45:00.000Z"
+        },
+        {
+          "phase": 2,
+          "completedAt": "2026-02-24T06:50:00.000Z"
+        },
+        {
+          "phase": 3,
+          "completedAt": "2026-02-24T07:10:00.000Z"
+        }
+      ]
+    },
+    "session": {
+      "startedAt": "2026-02-24T06:16:18.727Z",
+      "onboardingCompleted": true,
+      "lastActivity": "2026-02-25T05:01:19.239Z"
+    },
+    "history": [
+      {
+        "action": "plan_created",
+        "feature": "online-duty-manager",
+        "timestamp": "2026-02-24T06:30:00.000Z"
+      },
+      {
+        "action": "design_created",
+        "feature": "online-duty-manager",
+        "timestamp": "2026-02-24T06:45:00.000Z"
+      },
+      {
+        "action": "do_completed",
+        "feature": "online-duty-manager",
+        "timestamp": "2026-02-24T07:10:00.000Z"
+      },
+      {
+        "action": "check_completed",
+        "feature": "online-duty-manager",
+        "timestamp": "2026-02-24T07:15:00.000Z",
+        "matchRate": 85.6
+      },
+      {
+        "action": "act_iteration_1",
+        "feature": "online-duty-manager",
+        "timestamp": "2026-02-24T07:25:00.000Z",
+        "matchRate": 93.2,
+        "gapsResolved": 7
+      },
+      {
+        "action": "report_completed",
+        "feature": "online-duty-manager",
+        "timestamp": "2026-02-24T07:35:00.000Z"
+      },
+      {
+        "action": "archived",
+        "feature": "online-duty-manager",
+        "timestamp": "2026-02-24T07:40:00.000Z",
+        "archivedTo": "docs/archive/2026-02/online-duty-manager/"
+      },
+      {
+        "timestamp": "2026-02-24T07:34:50.883Z",
+        "feature": "duty-manager",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:35:14.982Z",
+        "feature": "calendar",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:35:21.398Z",
+        "feature": "calendar",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:35:27.179Z",
+        "feature": "calendar",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:35:45.158Z",
+        "feature": "calendar",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:36:05.404Z",
+        "feature": "duty-manager",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:36:16.876Z",
+        "feature": "schedule",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:37:52.397Z",
+        "feature": "schedule",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:37:58.724Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:38:03.792Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:43:56.595Z",
+        "feature": "duty-manager",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:44:05.176Z",
+        "feature": "calendar",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:44:26.281Z",
+        "feature": "calendar",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:47:05.117Z",
+        "feature": "duty-manager",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:47:10.643Z",
+        "feature": "duty-manager",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:47:24.392Z",
+        "feature": "duty-manager",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:47:48.910Z",
+        "feature": "schedule",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:48:07.022Z",
+        "feature": "calendar",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:48:46.743Z",
+        "feature": "calendar",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:49:12.593Z",
+        "feature": "schedule",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:49:21.653Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:49:30.796Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:49:48.249Z",
+        "feature": "dashboard",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:49:54.724Z",
+        "feature": "dashboard",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:50:09.462Z",
+        "feature": "dashboard",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:50:25.672Z",
+        "feature": "dashboard",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:54:05.516Z",
+        "feature": "duty-manager",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:54:13.770Z",
+        "feature": "duty-manager",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:54:51.936Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:55:19.539Z",
+        "feature": "calendar",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T08:00:18.825Z",
+        "feature": "calendar",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T08:01:27.111Z",
+        "feature": "dashboard",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T08:03:11.796Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T08:12:52.392Z",
+        "feature": "duty-manager",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T08:14:04.604Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T08:14:20.716Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T08:14:27.023Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T08:14:42.893Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T08:15:52.867Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T08:16:14.500Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T08:16:46.122Z",
+        "feature": "context",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T08:26:49.894Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T08:27:45.394Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T08:48:09.669Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T08:48:16.183Z",
+        "feature": "layout",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T08:53:16.690Z",
+        "feature": "context",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T09:12:26.959Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T09:38:27.869Z",
+        "feature": "schedule",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T09:38:34.828Z",
+        "feature": "schedule",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T09:38:40.339Z",
+        "feature": "schedule",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T09:43:14.349Z",
+        "feature": "context",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T09:48:23.553Z",
+        "feature": "auth",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T09:48:32.932Z",
+        "feature": "auth",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T10:00:19.264Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T10:00:30.223Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T10:02:11.423Z",
+        "feature": "auth",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T10:05:10.368Z",
+        "feature": "auth",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T10:05:38.883Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T10:06:44.921Z",
+        "feature": "login",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T10:06:59.148Z",
+        "feature": "signup",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T10:09:50.343Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T10:09:55.953Z",
+        "feature": "users",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T10:10:03.678Z",
+        "feature": "users",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T10:10:09.520Z",
+        "feature": "users",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T10:13:42.049Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T10:16:15.669Z",
+        "feature": "users",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T10:16:31.759Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T10:47:41.741Z",
+        "feature": "duty-manager",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T10:47:59.011Z",
+        "feature": "(app)",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T11:19:04.226Z",
+        "feature": "context",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T11:19:19.174Z",
+        "feature": "context",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T11:20:16.294Z",
+        "feature": "login",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T11:20:30.603Z",
+        "feature": "signup",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T11:20:49.147Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T11:20:54.102Z",
+        "feature": "users",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T11:20:59.350Z",
+        "feature": "users",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T11:21:05.968Z",
+        "feature": "users",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T11:21:12.338Z",
+        "feature": "users",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T11:22:22.942Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T11:22:45.756Z",
+        "feature": "reset-password",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T11:23:03.638Z",
+        "feature": "confirm",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T11:23:20.272Z",
+        "feature": "auth",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T23:58:31.945Z",
+        "feature": "context",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T00:01:10.052Z",
+        "feature": "auth",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T00:01:14.807Z",
+        "feature": "auth",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T00:01:31.111Z",
+        "feature": "duty-manager",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T00:03:55.204Z",
+        "feature": "auth",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T00:03:59.816Z",
+        "feature": "auth",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T00:16:43.753Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T00:19:11.466Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T00:22:48.683Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T00:22:58.912Z",
+        "feature": "context",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T01:43:46.755Z",
+        "feature": "auth",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T01:44:05.687Z",
+        "feature": "auth",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T01:44:21.090Z",
+        "feature": "duty-manager",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T02:07:11.842Z",
+        "feature": "auth",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T02:07:23.867Z",
+        "feature": "auth",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T03:44:56.998Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T03:45:07.308Z",
+        "feature": "auth",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T03:47:35.222Z",
+        "feature": "duty-manager",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T03:52:22.349Z",
+        "feature": "duty-manager",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T03:55:06.434Z",
+        "feature": "(app)",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T03:55:16.637Z",
+        "feature": "context",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T04:00:03.788Z",
+        "feature": "context",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T04:10:08.059Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T04:10:21.578Z",
+        "feature": "schedule",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T04:10:31.954Z",
+        "feature": "schedule",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T04:10:43.789Z",
+        "feature": "schedule",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T04:10:55.534Z",
+        "feature": "[date]",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T04:11:02.207Z",
+        "feature": "[date]",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T04:11:07.169Z",
+        "feature": "[date]",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T04:16:23.914Z",
+        "feature": "duty-manager",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T04:16:30.032Z",
+        "feature": "login",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T04:16:37.205Z",
+        "feature": "layout",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T04:58:06.495Z",
+        "feature": "duty-manager",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T04:58:28.502Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T04:58:33.567Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T04:58:45.344Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T04:59:06.287Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T04:59:56.775Z",
+        "feature": "schedule",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T05:00:20.805Z",
+        "feature": "[date]",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T05:00:26.379Z",
+        "feature": "[date]",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T05:00:32.290Z",
+        "feature": "[date]",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T05:00:36.986Z",
+        "feature": "[date]",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T05:01:19.239Z",
+        "feature": "api",
+        "phase": "do",
+        "action": "updated"
+      }
+    ]
+  }
+}

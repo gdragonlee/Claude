@@ -10,9 +10,9 @@ export const SHIFT_LABELS: Record<string, string> = {
 export const SHIFT_COLORS: Record<string, { bg: string; text: string }> = {
   duty: { bg: 'bg-blue-100', text: 'text-blue-800' },
   night_duty: { bg: 'bg-indigo-100', text: 'text-indigo-800' },
-  duty_off: { bg: 'bg-fuchsia-100', text: 'text-fuchsia-800' },
+  duty_off: { bg: 'bg-pink-100', text: 'text-pink-800' },
   leave: { bg: 'bg-yellow-100', text: 'text-yellow-800' },
-  research: { bg: 'bg-lime-100', text: 'text-lime-800' },
+  research: { bg: 'bg-blue-100', text: 'text-blue-800' },
   conference: { bg: 'bg-purple-100', text: 'text-purple-800' },
 };
 

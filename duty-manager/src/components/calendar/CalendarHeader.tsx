@@ -14,7 +14,7 @@ interface CalendarHeaderProps {
 export default function CalendarHeader({ year, month, onPrev, onNext, onToday }: CalendarHeaderProps) {
   return (
     <div className="flex items-center justify-between mb-4">
-      <h2 className="text-xl font-bold text-slate-800">
+      <h2 className="text-xl lg:text-2xl font-bold text-slate-800">
         {formatMonthTitle(year, month)}
       </h2>
       <div className="flex gap-2">

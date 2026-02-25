@@ -7,9 +7,9 @@ import { useToast } from '@/lib/context/ToastContext';
 import { useSchedules } from '@/lib/hooks/useSchedules';
 import DutyForm from '@/components/schedule/DutyForm';
 import Button from '@/components/ui/Button';
-import { createSchedule, deleteSchedule } from '@/lib/api/schedules';
+import { createSchedule, createConsecutiveSchedules, deleteSchedule, deleteScheduleGroup } from '@/lib/api/schedules';
 import { useUsers } from '@/lib/hooks/useUsers';
-import type { CreateScheduleDTO } from '@/lib/types';
+import type { CreateScheduleDTO, ShiftType, RepeatPattern } from '@/lib/types';
 import { parseISO } from '@/lib/utils/date';
 
 export default function ScheduleDatePage({ params }: { params: Promise<{ date: string }> }) {
@@ -36,10 +36,31 @@ export default function ScheduleDatePage({ params }: { params: Promise<{ date: s
     }
   };
 
+  const handleBulkSave = async (startDate: string, endDate: string, userId: string, shiftType: ShiftType, note?: string, repeatPattern?: RepeatPattern, weekInterval?: number): Promise<number> => {
+    try {
+      const count = await createConsecutiveSchedules(startDate, endDate, userId, shiftType, note, repeatPattern, weekInterval);
+      if (count > 0) {
+        addToast(`${count}건의 일정이 추가되었습니다.`, 'success');
+      } else {
+        addToast('추가할 일정이 없습니다. (이미 존재하는 일정)', 'info');
+      }
+      mutate();
+      return count;
+    } catch (err) {
+      addToast(err instanceof Error ? err.message : '저장 실패', 'error');
+      return 0;
+    }
+  };
+
   const handleDelete = async (id: string) => {
-    if (!confirm('이 당직을 삭제하시겠습니까?')) return;
     await deleteSchedule(id);
-    addToast('당직이 삭제되었습니다.', 'success');
+    addToast('일정이 삭제되었습니다.', 'success');
+    mutate();
+  };
+
+  const handleDeleteGroup = async (groupId: string) => {
+    await deleteScheduleGroup(groupId);
+    addToast('연결된 전체 일정이 삭제되었습니다.', 'success');
     mutate();
   };
 
@@ -60,7 +81,9 @@ export default function ScheduleDatePage({ params }: { params: Promise<{ date: s
           users={users}
           currentUser={user}
           onSave={handleSave}
+          onBulkSave={handleBulkSave}
           onDelete={handleDelete}
+          onDeleteGroup={handleDeleteGroup}
         />
       </div>
     </div>

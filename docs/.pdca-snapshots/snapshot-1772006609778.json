@@ -1,0 +1,141 @@
+{
+  "timestamp": "2026-02-25T08:03:29.778Z",
+  "reason": "compaction",
+  "status": {
+    "version": "2.0",
+    "lastUpdated": "2026-02-25T07:51:47.034Z",
+    "activeFeatures": [
+      "absence",
+      "layout",
+      "duty-manager",
+      "calendar"
+    ],
+    "primaryFeature": "absence",
+    "features": {
+      "absence": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-25T07:48:33.918Z",
+          "lastUpdated": "2026-02-25T07:51:14.005Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/app/(app)/absence/page.tsx"
+      },
+      "layout": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-25T07:48:52.794Z",
+          "lastUpdated": "2026-02-25T07:49:09.511Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/components/layout/MobileNav.tsx"
+      },
+      "duty-manager": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-25T07:50:52.476Z",
+          "lastUpdated": "2026-02-25T07:50:52.476Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/lib/utils/constants.ts"
+      },
+      "calendar": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-25T07:51:41.787Z",
+          "lastUpdated": "2026-02-25T07:51:47.034Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/components/calendar/WeeklyCalendar.tsx"
+      }
+    },
+    "pipeline": {
+      "currentPhase": 3,
+      "level": "Dynamic",
+      "phaseHistory": [
+        {
+          "phase": 1,
+          "completedAt": "2026-02-24T06:45:00.000Z"
+        },
+        {
+          "phase": 2,
+          "completedAt": "2026-02-24T06:50:00.000Z"
+        },
+        {
+          "phase": 3,
+          "completedAt": "2026-02-24T07:10:00.000Z"
+        }
+      ]
+    },
+    "session": {
+      "startedAt": "2026-02-24T06:16:18.727Z",
+      "onboardingCompleted": true,
+      "lastActivity": "2026-02-25T07:51:47.034Z"
+    },
+    "history": [
+      {
+        "action": "cleanup",
+        "timestamp": "2026-02-25T16:43:00.000Z",
+        "details": "Cleaned up 20 active features and archived history. Archive documents preserved at docs/archive/2026-02/online-duty-manager/"
+      },
+      {
+        "timestamp": "2026-02-25T07:48:33.918Z",
+        "feature": "absence",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T07:48:52.795Z",
+        "feature": "layout",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T07:49:09.511Z",
+        "feature": "layout",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T07:50:52.476Z",
+        "feature": "duty-manager",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T07:51:14.005Z",
+        "feature": "absence",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T07:51:41.787Z",
+        "feature": "calendar",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-25T07:51:47.034Z",
+        "feature": "calendar",
+        "phase": "do",
+        "action": "updated"
+      }
+    ]
+  }
+}
