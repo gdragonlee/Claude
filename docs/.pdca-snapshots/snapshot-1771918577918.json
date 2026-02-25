@@ -1,0 +1,161 @@
+{
+  "timestamp": "2026-02-24T07:36:17.918Z",
+  "reason": "compaction",
+  "status": {
+    "version": "2.0",
+    "lastUpdated": "2026-02-24T07:36:16.876Z",
+    "activeFeatures": [
+      "duty-manager",
+      "calendar",
+      "schedule"
+    ],
+    "primaryFeature": "duty-manager",
+    "features": {
+      "duty-manager": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T07:34:50.883Z",
+          "lastUpdated": "2026-02-24T07:36:05.404Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/lib/types/index.ts"
+      },
+      "calendar": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T07:35:14.982Z",
+          "lastUpdated": "2026-02-24T07:35:45.158Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/components/calendar/CalendarDay.tsx"
+      },
+      "schedule": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T07:36:16.876Z",
+          "lastUpdated": "2026-02-24T07:36:16.876Z"
+        },
+        "lastFile": "/Users/gdragonlee/Claude/duty-manager/src/components/schedule/AutoAssignPanel.tsx"
+      }
+    },
+    "pipeline": {
+      "currentPhase": 3,
+      "level": "Dynamic",
+      "phaseHistory": [
+        {
+          "phase": 1,
+          "completedAt": "2026-02-24T06:45:00.000Z"
+        },
+        {
+          "phase": 2,
+          "completedAt": "2026-02-24T06:50:00.000Z"
+        },
+        {
+          "phase": 3,
+          "completedAt": "2026-02-24T07:10:00.000Z"
+        }
+      ]
+    },
+    "session": {
+      "startedAt": "2026-02-24T06:16:18.727Z",
+      "onboardingCompleted": true,
+      "lastActivity": "2026-02-24T07:36:16.876Z"
+    },
+    "history": [
+      {
+        "action": "plan_created",
+        "feature": "online-duty-manager",
+        "timestamp": "2026-02-24T06:30:00.000Z"
+      },
+      {
+        "action": "design_created",
+        "feature": "online-duty-manager",
+        "timestamp": "2026-02-24T06:45:00.000Z"
+      },
+      {
+        "action": "do_completed",
+        "feature": "online-duty-manager",
+        "timestamp": "2026-02-24T07:10:00.000Z"
+      },
+      {
+        "action": "check_completed",
+        "feature": "online-duty-manager",
+        "timestamp": "2026-02-24T07:15:00.000Z",
+        "matchRate": 85.6
+      },
+      {
+        "action": "act_iteration_1",
+        "feature": "online-duty-manager",
+        "timestamp": "2026-02-24T07:25:00.000Z",
+        "matchRate": 93.2,
+        "gapsResolved": 7
+      },
+      {
+        "action": "report_completed",
+        "feature": "online-duty-manager",
+        "timestamp": "2026-02-24T07:35:00.000Z"
+      },
+      {
+        "action": "archived",
+        "feature": "online-duty-manager",
+        "timestamp": "2026-02-24T07:40:00.000Z",
+        "archivedTo": "docs/archive/2026-02/online-duty-manager/"
+      },
+      {
+        "timestamp": "2026-02-24T07:34:50.883Z",
+        "feature": "duty-manager",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:35:14.982Z",
+        "feature": "calendar",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:35:21.398Z",
+        "feature": "calendar",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:35:27.179Z",
+        "feature": "calendar",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:35:45.158Z",
+        "feature": "calendar",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:36:05.404Z",
+        "feature": "duty-manager",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:36:16.876Z",
+        "feature": "schedule",
+        "phase": "do",
+        "action": "updated"
+      }
+    ]
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "timestamp": "2026-02-24T07:11:52.043Z",
+  "reason": "compaction",
+  "status": {
+    "version": "2.0",
+    "lastUpdated": "2026-02-24T07:10:00.000Z",
+    "activeFeatures": [
+      "online-duty-manager"
+    ],
+    "primaryFeature": "online-duty-manager",
+    "features": {
+      "online-duty-manager": {
+        "phase": "do",
+        "matchRate": null,
+        "iterationCount": 0,
+        "startedAt": "2026-02-24T06:30:00.000Z",
+        "documents": {
+          "plan": "docs/01-plan/features/online-duty-manager.plan.md",
+          "design": "docs/02-design/features/online-duty-manager.design.md"
+        }
+      }
+    },
+    "pipeline": {
+      "currentPhase": 3,
+      "level": "Dynamic",
+      "phaseHistory": [
+        {
+          "phase": 1,
+          "completedAt": "2026-02-24T06:45:00.000Z"
+        },
+        {
+          "phase": 2,
+          "completedAt": "2026-02-24T06:50:00.000Z"
+        },
+        {
+          "phase": 3,
+          "completedAt": "2026-02-24T07:10:00.000Z"
+        }
+      ]
+    },
+    "session": {
+      "startedAt": "2026-02-24T06:16:18.727Z",
+      "onboardingCompleted": true,
+      "lastActivity": "2026-02-24T07:10:00.000Z"
+    },
+    "history": [
+      {
+        "action": "plan_created",
+        "feature": "online-duty-manager",
+        "timestamp": "2026-02-24T06:30:00.000Z"
+      },
+      {
+        "action": "design_created",
+        "feature": "online-duty-manager",
+        "timestamp": "2026-02-24T06:45:00.000Z"
+      },
+      {
+        "action": "do_completed",
+        "feature": "online-duty-manager",
+        "timestamp": "2026-02-24T07:10:00.000Z"
+      }
+    ]
+  }
+}
